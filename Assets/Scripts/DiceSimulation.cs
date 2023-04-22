@@ -20,13 +20,30 @@ public class DiceSimulation : MonoBehaviour
     void Start()
     {
         throwAgainButton.onClick.AddListener(ThrowSticks);
+        theStateManager = GameObject.FindObjectOfType<StateManager>();
+
         StartCoroutine(DropSticks());
     }
 
+    StateManager theStateManager;
 
 
     public void ThrowSticks()
     {
+
+
+        if (theStateManager.IsDoneRolling == true && theStateManager.extraTurns == 0)
+        {
+            // We've already rolled this turn.
+            return;
+        }
+
+
+
+        if  (theStateManager.extraTurns > 0){
+            theStateManager.extraTurns = theStateManager.extraTurns--;
+        }
+
         // Destroy existing sticks
         GameObject[] sticks = GameObject.FindGameObjectsWithTag("Stick");
         foreach (GameObject stick in sticks)
@@ -99,5 +116,16 @@ public class DiceSimulation : MonoBehaviour
         }
 
         whiteSidesText.text = "White sides up: " + whiteSideUpCount;
+        theStateManager.DiceTotal = whiteSideUpCount;
+        if (whiteSideUpCount == 1 || whiteSideUpCount == 4){
+        
+        theStateManager.extraTurns = theStateManager.extraTurns++;
+}
+        theStateManager.IsDoneRolling = true;
+        
+        theStateManager.CheckLegalMoves();
+
+
+
     }
 }
