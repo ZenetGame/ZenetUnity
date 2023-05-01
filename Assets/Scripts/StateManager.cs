@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime.InteropServices;
 
 public class StateManager : MonoBehaviour
 {
+
+
 
     // Use this for initialization
     void Start()
@@ -73,6 +76,11 @@ public class StateManager : MonoBehaviour
 
     public void CheckLegalMoves()
     {
+
+
+
+
+
         // If we rolled a zero, then we clearly have no legal moves.
         if(DiceTotal == 0)
         {

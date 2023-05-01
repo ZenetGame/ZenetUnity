@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime.InteropServices;
 
 public class PlayerStone : MonoBehaviour
 {
+  [DllImport("__Internal")]
+  private static extern void SetMove (int position, int move);
     // Use this for initialization
     void Start()
     {
@@ -40,7 +43,6 @@ public class PlayerStone : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Update");
 
         if (isAnimating == false)
         {
@@ -206,8 +208,13 @@ public class PlayerStone : MonoBehaviour
         }
         Debug.Log("MoveMe4");
 
+
+
+
+
         int spacesToMove = theStateManager.DiceTotal;
 
+     
 
         if (spacesToMove == 0)
         {
@@ -258,6 +265,15 @@ public class PlayerStone : MonoBehaviour
         {
             CurrentTile.PlayerStone = null;
         }
+
+
+
+
+   #if UNITY_WEBGL == true && UNITY_EDITOR == false
+            SetMove (CurrentTile.TileNumber,spacesToMove);
+        #endif
+
+
 
         // Even before the animation is done, set our current tile to the new tile
         CurrentTile = finalTile;

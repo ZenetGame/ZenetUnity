@@ -2,9 +2,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Runtime.InteropServices;
 
 public class GameIntro : MonoBehaviour
 {
+    [DllImport("__Internal")]
+    private static extern void ConnectWallet ();
+
 
     public Button player1Button;
     public Button player2Button;
@@ -33,8 +37,13 @@ public class GameIntro : MonoBehaviour
     public void GamePlay()
     {
 
+#if UNITY_WEBGL == true && UNITY_EDITOR == false
+    ConnectWallet();
+#endif
 
             anim.SetTrigger("Active");
+
+
     }
 
 
